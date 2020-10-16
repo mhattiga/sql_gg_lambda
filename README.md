@@ -6,7 +6,7 @@ This code was implemented on a Raspberry Pi 3. A local SQL database is running o
 
 ## Prerequists:
 
-Following the steps here to install prepare your RP3 for Greengrass.
+Follow the steps here to install prepare your RP3 for Greengrass.
 
 ~~~
 https://docs.aws.amazon.com/greengrass/latest/developerguide/quick-start.html
@@ -14,7 +14,7 @@ https://docs.aws.amazon.com/greengrass/latest/developerguide/quick-start.html
 
 Be sure to following the instructions through the steps of creating a lambda function and sending data to IoT Core.
 
-Enable SSH on the RP3. SSH into the RP3. Then enter the following commands:
+Enable SSH on the RP3, then SSH into the RP3, then enter the following commands:
 
 ~~~
 > cd
@@ -48,9 +48,9 @@ Install Postgress SQL on the RP3. Instructions here:
 https://kb.objectrocket.com/postgresql/how-to-install-and-set-up-postgresql-on-a-raspberry-pi-part-2-1165
 ~~~
 
-These instructions create a Linux systemd service with the postgre SQL database server running on the RP3. The service is automatically rebooted when the RP3 is rebooted.
+These instructions create a Linux systemd service with the postgre SQL database server running on the RP3. The service is automatically started when the RP3 is rebooted.
 
-Following the postgres installation instructions add database called rasp_pi_db. C
+Following the postgres installation instructions add a database called rasp_pi_db. Commands something like this:
 
 ~~~
 > sudo su postgres
@@ -80,7 +80,11 @@ Start the program with a -d flag to delete all previous entries in the database 
 
 # Load the greengrass lambda
 
-Follow the instructions to load the code in the lambda directory into your AWS account used when following these instructions:
+Follow the instructions to load the code from the gg_lambda directory into your AWS account used when following these instructions:
+
+~~~
+> cd ../gg_lambda
+~~~
 
 ~~~
 https://docs.aws.amazon.com/greengrass/latest/developerguide/quick-start.html
