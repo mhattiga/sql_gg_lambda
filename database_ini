@@ -1,5 +1,5 @@
-[postgresql]
+[postgressql]
 host=localhost
-database=suppliers
+database=rasp_pi_db
 user=Empty
 password=Empty

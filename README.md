@@ -63,6 +63,13 @@ Following the postgres installation instructions add a database called rasp_pi_d
 
 # Start Simulation Data
 
+Configure the databas.ini file for your local database. Specifically change the user and password.
+
+~~~
+> cp database_ini database.ini
+> vi database.ini
+~~~
+
 Start the python program that streams data into the rasp_pi_db database.
 
 ~~~

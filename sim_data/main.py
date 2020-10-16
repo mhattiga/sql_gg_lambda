@@ -18,7 +18,37 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
 
-import logging
+from configparser import ConfigParser
+import logging as log
+import os
 
 log.basicConfig(format='%(asctime)s: %(levelname)s: %(filename)s: %(funcName)s: %(message)s', level=log.INFO, datefmt="%Y-%m-%d %H:%M:%S")
 
+def db_config():
+    db_dict = {}
+
+    cf = ConfigParser()
+    cf.optionxform = str
+
+    database_ini_pathname = '../database.ini'
+    section = 'postgressql'
+
+    if os.path.exists(database_ini_pathname):
+        cf.read(database_ini_pathname)
+        try: 
+            db_dict = dict(cf.items(section))
+        except Exception as e:
+            log.error('ConfigPaser error: {}'.format(str(e)))
+    else:
+        log.error('Missing database ini file = {}'.format(database_ini_pathname))
+
+    return db_dict
+
+
+def main():
+    db_dict = db_config()
+    log.info('{}'.format(str(db_dict)))
+
+
+if __name__ == '__main__':
+    main()
