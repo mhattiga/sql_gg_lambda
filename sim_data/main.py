@@ -18,37 +18,45 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
 
-from configparser import ConfigParser
-import logging as log
+import sys
 import os
+root_dir = os.getcwd() + '/..'
+sys.path.append(root_dir)
+
+import logging as log
+from sql_db import sql_db
+import argparse
+import time
 
 log.basicConfig(format='%(asctime)s: %(levelname)s: %(filename)s: %(funcName)s: %(message)s', level=log.INFO, datefmt="%Y-%m-%d %H:%M:%S")
+database_ini_pathname = '{}/database.ini'.format(root_dir)
+WAIT_TIME = 5 # seconds between data entires being added to db
 
-def db_config():
-    db_dict = {}
-
-    cf = ConfigParser()
-    cf.optionxform = str
-
-    database_ini_pathname = '../database.ini'
-    section = 'postgressql'
-
-    if os.path.exists(database_ini_pathname):
-        cf.read(database_ini_pathname)
-        try: 
-            db_dict = dict(cf.items(section))
-        except Exception as e:
-            log.error('ConfigPaser error: {}'.format(str(e)))
-    else:
-        log.error('Missing database ini file = {}'.format(database_ini_pathname))
-
-    return db_dict
-
+def stream_data(local_db):
+    wait_time = 5
+    while(1):
+        local_db.add_random_data()
+        time.sleep(WAIT_TIME)
 
 def main():
-    db_dict = db_config()
-    log.info('{}'.format(str(db_dict)))
+    arg_parser = argparse.ArgumentParser(description='Stream data into SQL Database')
+    arg_parser.add_argument('-d','--delete',action='store_true',help='delete table and all entries of the database before starting')
+    args = arg_parser.parse_args()
 
+    local_db = sql_db(database_ini_pathname)
+    if local_db.db_exists():
+        if args.delete:
+            if local_db.table_exists():
+                local_db.delete_table()
+            local_db.create_table()
+
+        elif not local_db.table_exists():
+            local_db.create_table()
+
+        stream_data(local_db)            
+
+    else:
+        log.error('db does not exist')
 
 if __name__ == '__main__':
     main()
