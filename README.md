@@ -34,6 +34,26 @@ Privileges to clone this github repository are required. Add user information wi
         email = AshokKumar@org.com
 ~~~
 
+Turn off ipv6 for this session and also for future reboots. First enter the command to turn off Ipv6, then edit rc.local file to turn off IPv6 on any subsequent reboots.
+
+~~~
+> sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+> sudo vi /etc/rc.local
+~~~
+
+Add the following line right before the exit 0 line of the file. Here is an example rc.local file:
+
+~~~
+_IP=$(hostname -I) || true
+if [ "$_IP" ]; then
+  printf "My IP address is %s\n" "$_IP"
+fi
+
+sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+
+exit 0
+~~~
+
 Now clone the repository and install the python modules.
 
 ~~~
@@ -121,3 +141,33 @@ Follow the instructions to load the code from the gg_lambda directory into your 
 ~~~
 https://docs.aws.amazon.com/greengrass/latest/developerguide/quick-start.html
 ~~~
+
+# Start Greengrass
+
+Go to the greengrass core directory, start the greengrass systemd service, and verify the service is running.
+
+~~~
+> cd /home/pi/greengrass/ggc/core
+> sudo ./greengrassd start
+> ps aux | grep -E 'greengrass.*daemon' | grep -v grep
+~~~
+
+To stop greengrass, enter:
+~~~
+> sudo ./greengrassd stop
+> ps aux | grep -E 'greengrass.*daemon' | grep -v grep
+~~~
+
+By default, greengrass must be started after every reboot.
+
+Go to AWS Console and verify messages are arriving in IoT Core by subscribing to this topic:
+
+~~~
+spoton/alarm
+~~~
+
+
+
+
+
+
