@@ -2,6 +2,7 @@
 
 This code is an AWS Greengrass Lambda that reads IoT data from an SQL Database then sends it to the IoT Core. 
 
+
 This code was implemented on a Raspberry Pi 3. A local SQL database is running on the RP3 using Postgres SQL. Simulated data is streamed into the SQL Database locally on the RP3.
 
 ## Prerequists:
