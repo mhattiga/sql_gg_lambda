@@ -23,15 +23,7 @@ Enable SSH on the RP3, then SSH into the RP3, then enter the following commands:
 > sudo apt-get install python3-pip -y
 > sudo apt install python3.7 -y
 > sudo apt install git -y
-> vi ~/.gitconfig
-~~~
-
-Privileges to clone this github repository are required. Add user information with these privileges to the .gitconfig file. Something like the following:
-
-~~~
-[user]
-        name = AshokKumar
-        email = AshokKumar@org.com
+> git config --global credential.helper store
 ~~~
 
 Turn off ipv6 for this session and also for future reboots. First enter the command to turn off Ipv6, then edit rc.local file to turn off IPv6 on any subsequent reboots.
